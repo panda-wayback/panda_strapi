@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "activation_cards",
+  "info": {
+    "singularName": "activation-card",
+    "pluralName": "activation-cards",
+    "displayName": "activation-card"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "customField",
+      "customField": "plugin::strapi-advanced-uuid.uuid",
+      "options": {
+        "disable-auto-fill": false,
+        "disable-regenerate": false,
+        "uuid-format": "[A-Z0-9]{18}"
+      }
+    },
+    "card_type": {
+      "type": "enumeration",
+      "default": "test",
+      "enum": [
+        "test",
+        "day",
+        "week",
+        "month"
+      ]
+    },
+    "activation_status": {
+      "type": "enumeration",
+      "default": "unused",
+      "enum": [
+        "unused",
+        "used",
+        "expired"
+      ]
+    },
+    "activated_at": {
+      "type": "datetime"
+    },
+    "expires_at": {
+      "type": "datetime"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}
