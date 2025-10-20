@@ -1,0 +1,34 @@
+services:
+  strapi:
+    container_name: strapi-sqlite
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      # SQLite 数据库配置
+      DATABASE_CLIENT: sqlite
+      DATABASE_FILENAME: /tmp/data.db
+      
+      # 简化的安全配置
+      JWT_SECRET: jwt-secret-key-for-development-only
+      ADMIN_JWT_SECRET: admin-jwt-secret-for-development-only
+      API_TOKEN_SALT: api-token-salt-for-development-only
+      TRANSFER_TOKEN_SALT: transfer-token-salt-for-development-only
+      APP_KEYS: app-keys-for-development-only
+      NODE_ENV: development
+    
+    # 简化的数据卷挂载
+    volumes:
+      - ./strapi/config:/opt/app/config
+      - ./strapi/src:/opt/app/src
+      - ./strapi/package.json:/opt/package.json
+      - ./strapi/yarn.lock:/opt/yarn.lock
+      - ./strapi/public/uploads:/opt/app/public/uploads
+      - strapi_data:/tmp  # SQLite 数据库存储在临时目录
+    
+    ports:
+      - "1337:1337"
+
+volumes:
+  strapi_data:
