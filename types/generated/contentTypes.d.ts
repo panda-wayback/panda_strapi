@@ -471,12 +471,12 @@ export interface ApiActivationCardActivationCard
     draftAndPublish: true;
   };
   attributes: {
-    activated_at: Schema.Attribute.DateTime;
     activation_status: Schema.Attribute.Enumeration<
-      ['unused', 'used', 'expired']
+      ['unassigned', 'assigned', 'used', 'expired']
+    >;
+    card_type: Schema.Attribute.Enumeration<
+      ['test', 'day', 'week', 'month', 'year', 'permanent']
     > &
-      Schema.Attribute.DefaultTo<'unused'>;
-    card_type: Schema.Attribute.Enumeration<['test', 'day', 'week', 'month']> &
       Schema.Attribute.DefaultTo<'test'>;
     code: Schema.Attribute.UID<
       undefined,
@@ -504,11 +504,13 @@ export interface ApiActivationCardActivationCard
       'api::activation-card.activation-card'
     > &
       Schema.Attribute.Private;
+    metadata: Schema.Attribute.JSON;
     note: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    used_at: Schema.Attribute.DateTime;
   };
 }
 

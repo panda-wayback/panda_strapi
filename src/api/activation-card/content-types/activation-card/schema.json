@@ -27,23 +27,28 @@
         "test",
         "day",
         "week",
-        "month"
+        "month",
+        "year",
+        "permanent"
       ]
     },
     "activation_status": {
       "type": "enumeration",
-      "default": "unused",
       "enum": [
-        "unused",
+        "unassigned",
+        "assigned",
         "used",
         "expired"
       ]
     },
-    "activated_at": {
+    "used_at": {
       "type": "datetime"
     },
     "expires_at": {
       "type": "datetime"
+    },
+    "metadata": {
+      "type": "json"
     },
     "note": {
       "type": "string"
