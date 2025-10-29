@@ -21,13 +21,35 @@ if echo "$STARTUP_OUTPUT" | grep -q "already setup\|already configured"; then
     exit 0
 fi
 
+# 检查是否成功自动配置（systemd 环境）
+if echo "$STARTUP_OUTPUT" | grep -q "Command successfully executed\|successfully executed"; then
+    echo "✅ 开机自启已自动配置成功！"
+    exit 0
+fi
+
+# 对于 macOS 和需要手动配置的情况
 # 提取需要执行的命令
-STARTUP_CMD=$(echo "$STARTUP_OUTPUT" | grep -E "sudo.*env.*PATH" | tail -n 1)
+STARTUP_CMD=$(echo "$STARTUP_OUTPUT" | grep -E "sudo.*env.*PATH|sudo env" | tail -n 1)
 
 if [ -z "$STARTUP_CMD" ]; then
-    echo "❌ 无法获取启动命令"
+    # 检查是否是 systemd 环境且需要手动启用服务
+    if echo "$STARTUP_OUTPUT" | grep -q "systemctl enable"; then
+        SYSTEMD_CMD=$(echo "$STARTUP_OUTPUT" | grep "systemctl enable" | head -n 1)
+        if [ -n "$SYSTEMD_CMD" ]; then
+            echo "📋 请执行以下命令以完成开机自启配置："
+            echo ""
+            echo "sudo $SYSTEMD_CMD"
+            echo ""
+            echo "💡 提示：这需要 sudo 权限"
+            exit 0
+        fi
+    fi
+    
+    # 如果都无法识别，直接显示完整输出
+    echo "⚠️  无法自动获取配置命令，请查看以下输出："
+    echo ""
     echo "$STARTUP_OUTPUT"
-    exit 1
+    exit 0
 fi
 
 echo ""
