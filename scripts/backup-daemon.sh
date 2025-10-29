@@ -3,6 +3,10 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# 加载 nvm 环境
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 echo "🔄 备份守护进程启动..."
 echo "📦 每10分钟备份一次数据库"
 

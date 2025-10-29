@@ -9,6 +9,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "🚀 启动应用..."
 
+# 执行 nvm 环境配置脚本
+source "$SCRIPT_DIR/setup-nvm.sh"
+
 # 检查应用是否已在运行
 if pm2 describe $APP_NAME > /dev/null 2>&1; then
     echo "⚠️  应用已在运行"
@@ -22,10 +25,12 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-# 检查构建
-if [ ! -d "dist" ]; then
+# 检查构建（检查 dist 目录和 admin build）
+ADMIN_BUILD_PATH="node_modules/@strapi/admin/dist/server/server/build/index.html"
+if [ ! -d "dist" ] || [ ! -f "$ADMIN_BUILD_PATH" ]; then
     echo "🔨 构建项目..."
     npm run build
+    echo "✅ 构建完成"
 fi
 
 # 启动主应用
