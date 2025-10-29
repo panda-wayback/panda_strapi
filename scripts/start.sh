@@ -35,7 +35,7 @@ fi
 
 # 启动主应用
 echo "▶️  启动主应用..."
-pm2 start npm --name $APP_NAME -- run start
+pm2 start npm --name $APP_NAME -- run start --env-file .env
 
 # 启动备份服务
 echo "📦 启动备份服务（每10分钟备份一次）..."
@@ -46,5 +46,8 @@ pm2 save
 
 echo ""
 echo "✅ 启动完成！"
+echo ""
+echo "💡 提示：如需配置开机自启，请运行: make startup"
+echo ""
 pm2 status
 
