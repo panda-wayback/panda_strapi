@@ -473,7 +473,8 @@ export interface ApiActivationCardActivationCard
   attributes: {
     activation_status: Schema.Attribute.Enumeration<
       ['unassigned', 'assigned', 'used', 'expired']
-    >;
+    > &
+      Schema.Attribute.DefaultTo<'unassigned'>;
     card_type: Schema.Attribute.Enumeration<
       ['test', 'day', 'week', 'month', 'year', 'permanent']
     > &
@@ -511,6 +512,7 @@ export interface ApiActivationCardActivationCard
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     used_at: Schema.Attribute.DateTime;
+    user_id: Schema.Attribute.String;
   };
 }
 

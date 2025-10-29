@@ -20,6 +20,9 @@
         "uuid-format": "[A-Z0-9]{18}"
       }
     },
+    "user_id": {
+      "type": "string"
+    },
     "card_type": {
       "type": "enumeration",
       "default": "test",
@@ -34,6 +37,7 @@
     },
     "activation_status": {
       "type": "enumeration",
+      "default": "unassigned",
       "enum": [
         "unassigned",
         "assigned",
